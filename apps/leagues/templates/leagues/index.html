@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sports Leagues</title>
+	</head>
+	<body>
+		<h1>...all teams in the Atlantic Soccer Conference</h1>
+		<ol>
+			{%for team in atlantic_teams %}
+			<li>{{team.location}} {{team.team_name}}</li>
+			{% empty %}
+				<p>No leagues found.  Try <code>python manage.py loaddata data.json</code>, or, if that doesn't work, going <a href="{% url 'make_data' %}">here</a> (but be prepared to wait).</p>
+			{% endfor %}
+		</ol>
+		<h1>...all (current) players on the Boston Penguins</h1>
+		<ol>
+			{%for player in boston_penguins.curr_players.all%}
+			<li>{{player.first_name}} {{player.last_name}}</li>
+			{%empty%}
+				<p>No players found.  Try <code>python manage.py loaddata data.json</code>, or, if that doesn't work, going <a href="{% url 'make_data' %}">here</a> (but be prepared to wait).</p>
+			{%endfor%}
+		</ol>
+		<h1>...all (current) players in the International Collegiate Baseball Conference</h1>
+		<ol>
+			{%for team in icbc.teams.all%}
+			<p>{{team.location}} {{team.team_name}}:</p>
+			{%for player in team.curr_players.all%}
+			<li>{{player.first_name}} {{player.last_name}}</li>
+			{%empty%}
+				<p>No players found.  Try <code>python manage.py loaddata data.json</code>, or, if that doesn't work, going <a href="{% url 'make_data' %}">here</a> (but be prepared to wait).</p>
+			{%endfor%}
+			{%endfor%}
+		</ol>
+		<h1> ...all (current) players in the American Conference of Amateur Football with last name "Lopez"</h1>
+		<ol>
+			{%for team in acaf.teams.all%}
+				{%for player in team.curr_players.all%}
+				{%if player.last_name == "Lopez"%}
+					<li>{{player.first_name}} {{player.last_name}}</li>
+				{%endif%}
+				{%endfor%}
+			{%endfor%}
+		</ol>
+		<h1> ...all football players</h1>
+		<ol>
+			{%for league in football%}
+				{%for team in league.teams.all%}
+					{%for player in team.curr_players.all%}
+						<li>{{player.first_name}} {{player.last_name}}</li>
+					{%endfor%}
+				{%endfor%}
+			{%endfor%}
+		</ol>
+		<h1>...all teams with a (current) player named "Sophia"</h1>
+		<ol>
+			{%for team in team_sophia%}
+			<li>{{team.location}} {{team.team_name}}</li>
+				{%for player in team.curr_players.all%}
+				<ul>
+					{%if player.first_name == "Sophia"%}
+					<li>{{player.first_name}} {{player.last_name}}</li>
+					{%endif%}
+				</ul>
+				{%endfor%}
+			{%endfor%}
+		</ol>
+		<h1>...all leagues with a (current) player named "Sophia"</h1>
+		<ol>
+			{%for team in team_sophia%}
+			<li>{{team.league.name}}</li>
+				{%for player in team.curr_players.all%}
+				<ul>
+					{%if player.first_name == "Sophia"%}
+					<li>{{player.first_name}} {{player.last_name}}</li>
+					{%endif%}
+				</ul>
+				{%endfor%}
+			{%endfor%}
+		</ol>
+		<h1>...everyone with the last name "Flores" who DOESN'T (currently) play for the Washington Roughriders</h1>
+		<ol>
+			{%for player in flores%}
+			<li>{{player.first_name}} {{player.last_name}} - {{player.curr_team.location}} {{player.curr_team.team_name}}</li>
+			{%endfor%}
+		</ol>
+		<h1>...all teams, past and present, that Samuel Evans has played with</h1>
+		<ol>
+			{%for team in s_evans%}
+			<li>{{team.location}} {{team.team_name}}</li>
+			{%endfor%}
+		</ol>
+		<h1>...all players, past and present, with the Manitoba Tiger-Cats</h1>
+		<ol>
+			{%for player in tigercats.all_players.all%}
+			<li>{{player.first_name}} {{player.last_name}}</li>
+			{%endfor%}
+		</ol>
+		<h1>...all players who were formerly (but aren't currently) with the Wichita Vikings</h1>
+		<ol>
+			{%for player in vikings%}
+			<li>{{player.first_name}} {{player.last_name}}</li>
+			{%endfor%}
+		</ol>
+		<h1>...every team that Jacob Gray played for before he joined the Oregon Colts</h1>
+		<ol>
+			{%for team in jacobgray%}
+			<li>{{team.location}} {{team.team_name}}</li>
+			{%endfor%}
+		</ol>
+		<h1>...everyone named "Joshua" who has ever played in the Atlantic Federation of Amateur Baseball Players</h1>
+		<ol>
+			{%for team in joshua_team%}
+				{%for player in team.all_players.all%}
+					{%if player.first_name == "Joshua"%}
+					<li>{{player.first_name}} {{player.last_name}}</li>
+					{%endif%}
+				{%endfor%}
+			{%endfor%}
+		</ol>
+		<h1>...all teams that have had 12 or more players, past and present.</h1>
+		<ol>
+			{%for team in big_teams%}
+			<li>{{team.location}} {{team.team_name}} ({{team.num_players}} all time players)</li>
+			{%endfor%}
+		</ol>
+		<h1>...all players, sorted by the number of teams they've played for</h1>
+		<ol>
+			{%for player in num_teams%}
+			<li>{{player.first_name}} {{player.last_name}} - {{player.num_teams}} teams</li>
+			{%endfor%}
+		</ol>
+	</body>
+</html>
